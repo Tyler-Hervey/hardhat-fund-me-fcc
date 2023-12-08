@@ -1,9 +1,7 @@
-// import { ethers } from "hardhat"
-
 import { HardhatRuntimeEnvironment } from "hardhat/types"
 import { DeployFunction } from "hardhat-deploy/types"
-import { networkConfig, developmentChains } from "../helper-hardhat-config"
 import verify from "../utils/verify"
+import { networkConfig, developmentChains } from "../helper-hardhat-config"
 
 const deployFundMe: DeployFunction = async function (
     hre: HardhatRuntimeEnvironment
@@ -14,7 +12,6 @@ const deployFundMe: DeployFunction = async function (
     const { deployer } = await getNamedAccounts()
     const chainId: number = network.config.chainId!
 
-    // if chainId is X use address Y
     let ethUsdPriceFeedAddress: string
     if (chainId == 31337) {
         const ethUsdAggregator = await deployments.get("MockV3Aggregator")
@@ -24,8 +21,6 @@ const deployFundMe: DeployFunction = async function (
     }
     log("----------------------------------------------------")
     log("Deploying FundMe and waiting for confirmations...")
-    // if contract doesn't exist, we deploy a minimal version for our local testing
-
     const fundMe = await deploy("FundMe", {
         from: deployer,
         args: [ethUsdPriceFeedAddress],
